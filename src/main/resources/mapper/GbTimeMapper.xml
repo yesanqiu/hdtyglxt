@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.hdtyglxt.mapper.GbTimeMapper" >
+  <resultMap id="BaseResultMap" type="com.example.hdtyglxt.entity.GbTime" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="gbid" property="gbid" jdbcType="INTEGER" />
+    <result column="gb_gid" property="gbGid" jdbcType="INTEGER" />
+    <result column="starttime" property="starttime" jdbcType="VARCHAR" />
+    <result column="endtime" property="endtime" jdbcType="VARCHAR" />
+    <result column="gbstatus" property="gbstatus" jdbcType="CHAR" />
+  </resultMap>
+</mapper>

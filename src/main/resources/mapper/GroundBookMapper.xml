@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.hdtyglxt.mapper.GroundBookMapper" >
+  <resultMap id="BaseResultMap" type="com.example.hdtyglxt.entity.GroundBook" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="g_gid" property="gGid" jdbcType="INTEGER" />
+    <result column="bid" property="bid" jdbcType="INTEGER" />
+    <result column="bstart_time" property="bstartTime" jdbcType="TIMESTAMP" />
+    <result column="bend_time" property="bendTime" jdbcType="TIMESTAMP" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="bcost" property="bcost" jdbcType="DECIMAL" />
+    <result column="bisuse" property="bisuse" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="BaseResultMap2" type="com.example.hdtyglxt.dto.GroundBookDTO" >
+    <result column="g_gid" property="gGid" jdbcType="INTEGER" />
+    <result column="bid" property="bid" jdbcType="INTEGER" />
+    <result column="bstart_time" property="bstartTime" jdbcType="TIMESTAMP" />
+    <result column="bend_time" property="bendTime" jdbcType="TIMESTAMP" />
+    <result column="bcost" property="bcost" jdbcType="DECIMAL" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="bisuse" property="bisuse" jdbcType="CHAR" />
+    <association property="ground" javaType="com.example.hdtyglxt.entity.Ground">
+      <id column="gid" property="gid" jdbcType="INTEGER"></id>
+      <result column="gtype" property="gtype" jdbcType="VARCHAR"/>
+      <result column="glocation" property="glocation" jdbcType="VARCHAR"/>
+    </association>
+    <association property="user" javaType="com.example.hdtyglxt.entity.User">
+      <id column="user_id" property="userId" jdbcType="INTEGER"></id>
+      <result column="student_id" property="studentId" jdbcType="VARCHAR"/>
+    </association>
+
+  </resultMap>
+  <select id="querymybook" resultMap="BaseResultMap2" parameterType="java.lang.Integer">
+    select * from ground c,ground_book b,user u where b.g_gid = c.gid and b.userid=u.user_id and b.userid=#{uid}
+  </select>
+  <select id="querybookByid" resultMap="BaseResultMap">
+    select * from ground_book where userid != #{uid}
+  </select>
+
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.hdtyglxt.mapper.GroundMapper" >
+  <resultMap id="BaseResultMap" type="com.example.hdtyglxt.entity.Ground" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="gid" property="gid" jdbcType="INTEGER" />
+    <result column="gtype" property="gtype" jdbcType="VARCHAR" />
+    <result column="gapplication" property="gapplication" jdbcType="VARCHAR" />
+    <result column="glocation" property="glocation" jdbcType="VARCHAR" />
+    <result column="gstatus" property="gstatus" jdbcType="CHAR" />
+    <result column="gcost" property="gcost" jdbcType="DECIMAL" />
+  </resultMap>
+</mapper>

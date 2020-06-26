@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+
+<title>修改场地</title>
+<link rel="stylesheet" href="css/bootstrap.css" />
+<link rel="stylesheet" th:href="@{css/bootstrap-responsive.css}" />
+<link rel="stylesheet" th:href="@{css/styles.css}" />
+<link rel="stylesheet" th:href="@{css/toastr.css}" />
+<link rel="stylesheet" th:href="@{css/fullcalendar.css}" />
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/bootstrap.js}"></script>
+<script th:src="@{js/jquery.knob.js}"></script>
+<script th:src="@{js/jquery.sparkline.min.js}"></script>
+<script th:src="@{js/toastr.js}"></script>
+<script th:src="@{js/jquery.tablesorter.min.js}"></script>
+<script th:src="@{js/jquery.peity.min.js}"></script>
+<script th:src="@{js/fullcalendar.min.js}"></script>
+<script th:src="@{js/gcal.js}"></script>
+<script th:src="@{js/setup.js}"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+</head>
+<body>
+	<!-- header²¿·Ö -->
+	<div id="in-nav">
+		<div class="container">
+			<div class="row">
+				<div class="span12">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="in-sub-nav">
+		<div class="container">
+			<div class="row">
+				<div class="span12">
+					<ul>
+						<li><a th:href="@{/ground.html}"><i class="batch stream"></i><br />场地信息</a></li>
+						<li><a th:href="@{/mybookground}"><i class="batch users"></i><br />我的预约</a></li>
+						<li th:if="${session.user.role} == 0"><a th:href="@{/tobookground}"><i class="batch users"></i><br />场地预约</a></li>
+						<li th:if="${session.user.role} == 2"><a th:href="@{/tonoticeedit}"><i class="batch users"></i><br />编辑场馆公告</a></li>
+						<li th:if="${session.user.role} == 0"><a th:href="@{/toquerynotice}"><i class="batch users"></i><br />查看场馆公告</a></li>
+						<li th:if="${session.user.role} == 2"><a th:href="@{/torepudiation}"><i class="batch users"></i><br />失约人名单</a></li>
+						<li th:if="${session.user.role} == 2"><a th:href="@{/toblack}"><i class="batch users"></i><br />查看黑名单</a></li>
+						<li><a th:href="@{/querygroundbook}"><i class="batch users"></i><br />查看已预约场地</a></li>
+						<!-- <li><a href="categories.html"><i class="batch forms"></i><br />Àà±ðÁÐ±í</a></li>
+						<li><a href="products.html"><i class="batch quill"></i><br />ÉÌÆ·ÁÐ±í</a></li>
+						<li><span class="label label-important pull-right">04</span><a
+							href="orders.html"><i class="batch plane"></i><br />¶©µ¥ÁÐ±í</a></li>
+						<li><a href="anothers.html"><i class="batch calendar"></i><br />ÆäËüÀ©Õ¹¹¦ÄÜ</a></li>
+						<li><a href="settings.html"><i class="batch settings"></i><br />ÏµÍ³ÉèÖÃ</a></li> -->
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="page">
+		<div class="page-container">
+			<div class="container">
+				<div class="row">
+					<div class="span12">
+						<h4 class="header">修改场地</h4>
+						<form th:action="@{/updateground}" method="post">
+							<table class="table table-striped sortable">
+								<thead>
+								</thead>
+								<tbody>
+									<tr>
+										<td><input type="hidden" th:value="${ground.getGid()}" name="gid"/></td>
+									</tr>
+
+									<tr>
+										<th>场地类型</th>
+										<td><textarea style="resize: none;" th:text="${ground.getGtype()}" rows="3" cols="20" name="gtype"></textarea></td>
+									</tr>
+
+									<tr>
+										<th>场地用途</th>
+										<td><textarea style="resize: none;" th:text="${ground.getGapplication()}" rows="5" cols="20" name="gapplication">用作比赛和上课</textarea></td>
+									</tr>
+									<tr>
+										<th>位置</th>
+										<td><textarea style="resize: none;" th:text="${ground.getGlocation()}" rows="5" cols="20" name="glocation">体育场一楼</textarea></td>
+									</tr>
+									<tr>
+										<th>费用</th>
+										<td><input  type="text" name="gcost" th:value="${ground.getGcost()}" />例如：10.00</td>
+									</tr>
+									<tr>
+
+										<td></td>
+										<td><input class="btn btn-success" type="submit"
+											value="修改" /></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+
+								</tbody>
+							</table>
+						</form>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="span12">
+					<p>&copy; Copyright 2018 Somnus</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+</body>
+<script src="js/d3-setup.js"></script>
+<script>
+
+</script>
+</html>

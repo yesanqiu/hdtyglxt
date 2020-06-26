@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+
+<title>场地预留</title>
+<link rel="stylesheet" href="css/bootstrap.css" />
+<link rel="stylesheet" href="css/bootstrap-responsive.css" />
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/toastr.css" />
+<link rel="stylesheet" href="css/fullcalendar.css" />
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/jquery.knob.js"></script>
+<script src="js/jquery.sparkline.min.js"></script>
+<script src="js/toastr.js"></script>
+<script src="js/jquery.tablesorter.min.js"></script>
+<script src="js/jquery.peity.min.js"></script>
+<script src="js/fullcalendar.min.js"></script>
+<script src="js/gcal.js"></script>
+<script src="js/setup.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+</head>
+<body>
+	<!-- header²¿·Ö -->
+	<div id="in-nav">
+		<div class="container">
+			<div class="row">
+				<div class="span12">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="in-sub-nav">
+		<div class="container">
+			<div class="row">
+				<div class="span12">
+					<ul>
+						<li><a th:href="@{/ground.html}"><i class="batch stream"></i><br />场地信息</a></li>
+						<li><a th:href="@{/mybookground}"><i class="batch users"></i><br />我的预约</a></li>
+						<li th:if="${session.user.role} == 0"><a th:href="@{/tobookground}"><i class="batch users"></i><br />场地预约</a></li>
+						<li th:if="${session.user.role} == 2"><a th:href="@{/tonoticeedit}"><i class="batch users"></i><br />编辑场馆公告</a></li>
+						<li th:if="${session.user.role} == 0"><a th:href="@{/toquerynotice}"><i class="batch users"></i><br />查看场馆公告</a></li>
+						<li th:if="${session.user.role} == 2"><a th:href="@{/torepudiation}"><i class="batch users"></i><br />失约人名单</a></li>
+						<li th:if="${session.user.role} == 2"><a th:href="@{/toblack}"><i class="batch users"></i><br />查看黑名单</a></li>
+						<li><a th:href="@{/querygroundbook}"><i class="batch users"></i><br />查看已预约场地</a></li>
+						<!-- <li><a href="categories.html"><i class="batch forms"></i><br />Àà±ðÁÐ±í</a></li>
+						<li><a href="products.html"><i class="batch quill"></i><br />ÉÌÆ·ÁÐ±í</a></li>
+						<li><span class="label label-important pull-right">04</span><a
+							href="orders.html"><i class="batch plane"></i><br />¶©µ¥ÁÐ±í</a></li>
+						<li><a href="anothers.html"><i class="batch calendar"></i><br />ÆäËüÀ©Õ¹¹¦ÄÜ</a></li>
+						<li><a href="settings.html"><i class="batch settings"></i><br />ÏµÍ³ÉèÖÃ</a></li> -->
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="page">
+		<div class="page-container">
+			<div class="container">
+				<div class="row">
+					<div class="span12">
+						<h4 class="header">场地预留</h4>
+
+							<table class="table table-striped sortable">
+								<thead>
+								</thead>
+								<tbody>
+									<tr>
+										<td><input th:value="${gidmessage}" type="hidden" id="gid" name="gid"/></td>
+									</tr>
+
+									<tr>
+										<th>开始时间</th>
+										<td><input type="text" id="startdate" name="startdate" />
+										<select name="starttime" id="starttime">
+											<option value="9:00:00">9:00:00</option>
+											<option value="11:00:00">11:00:00</option>
+											<option value="15:00:00">15:00:00</option>
+											<option value="17:00:00">17:00:00</option>
+											<option value="19:00:00">19:00:00</option>
+											<option value="21:00:00">21:00:00</option>
+										</select>
+										时间格式:2002-2-2 
+									</td>
+										
+									</tr>
+
+									<tr>
+										<th>结束时间</th>
+										<td><input type="text" id="enddate" name="enddate" />
+
+										<select name="endtime" id="endtime">
+											<option value="10:00:00">10:00:00</option>
+											<option value="12:00:00">12:00:00</option>
+											<option value="16:00:00">16:00:00</option>
+											<option value="18:00:00">18:00:00</option>
+											<option value="20:00:00">20:00:00</option>
+											<option value="22:00:00">22:00:00</option>
+										</select>
+										时间格式:2002-2-2 
+									</tr>
+									<tr>
+										<td></td>
+										<td><a th:onclick="Bookbook()" class="btn">预留</a></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+
+								</tbody>
+							</table>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="span12">
+					<p>&copy; Copyright 2018 Somnus</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+</body>
+<script src="js/d3-setup.js"></script>
+<script type="text/javascript" th:inline="javascript">
+	function Bookbook() {
+		var startdate= $("#startdate").val();
+		var enddate = $("#enddate").val()
+		var starttime= $("#starttime").val();
+		var endtime = $("#endtime").val();
+		var gid = $("#gid").val();
+		$.ajax({
+			type:"get",
+			url:"bookbook?gid="+gid+"&startdate="+startdate+"&starttime="+starttime+"&enddate="+enddate+"&endtime="+endtime,
+			dataType:"json",
+			success:function (response) {
+				alert(response.msg);
+                window.location.reload();
+			}
+		})
+
+	}
+</script>
+</html>

@@ -1,0 +1,45 @@
+.t_body,.t_head,.t_line{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+.t_head,.t_line{
+    height: 50px;
+    line-height: 50px;
+}
+.t_head{
+    border-bottom: 2px solid rgba(0,0,0,0.8);
+}
+.t_body{
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-start !important;
+}
+.t_item{
+    width: 100px;
+    text-align: center;
+    justify-content: center;
+}
+.delBtn{
+    height: 25px;
+    padding: 4px 24px;
+    color: rgba(0,255,255,0.7);
+    background-color: rgba(255,24,36,0.8);
+    border: none;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.t_bottom{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.t_btn{
+    background-color: rgba(0,0,0,0.4);
+}
+.t_btn img{
+    width: 20px;
+    height: 20px;
+}

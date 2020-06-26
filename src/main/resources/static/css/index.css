@@ -1,0 +1,45 @@
+.body{
+    justify-content: space-between !important;
+}
+.background{
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    height: 100%;
+    background: url("../img/1.jpg") repeat-x;
+    background-size: cover;
+    filter: alpha(opacity = 70);
+    opacity: 0.7;
+    -moz-opacity: 0.7;
+    width: 100%;
+}
+
+.head_msg{
+    display: flex;
+    letter-spacing: 2px;
+    justify-content: space-between;
+    color: rgba(255,188,255,0.7);
+    background-color: rgba(0,0,0,0.3);
+    height: 25px;
+    width: 100%;
+    align-self: flex-start;
+}
+.head_msg div{
+    margin: 0 18px;
+}
+.admin_c{
+    min-height: 10px;
+    min-width: 10px;
+}
+.admin,.warn,.nickname{
+    cursor: pointer;
+}
+.warn{
+
+    color: rgba(255,10,10,0.9);
+}
+
+
+.content{
+    height: 80%;
+}

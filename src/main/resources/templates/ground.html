@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<!-- <meta charset="gbk" /> -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="description" content="description of your site" />
+<meta name="author" content="author of the site" />
+<title>场地信息</title>
+<link rel="stylesheet" href="css/bootstrap.css" />
+<link rel="stylesheet" href="css/bootstrap-responsive.css" />
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/toastr.css" />
+<link rel="stylesheet" href="css/fullcalendar.css" />
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/jquery.knob.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="js/jquery.sparkline.min.js"></script>
+<script src="js/toastr.js"></script>
+<script src="js/jquery.tablesorter.min.js"></script>
+<script src="js/jquery.peity.min.js"></script>
+<script src="js/fullcalendar.min.js"></script>
+<script src="js/gcal.js"></script>
+<script src="js/setup.js"></script>
+</head>
+<body>
+	<div id="in-nav">
+		<div class="container">
+			<div class="row">
+				<div class="span12">
+					<a th:id="logo" href="#">
+						<h4>
+							场地管理<strong>系统</strong>
+						</h4>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="in-sub-nav">
+		<div class="container">
+			<div class="row">
+				<div class="span12">
+					<ul>
+						
+						<li><a th:href="@{/ground.html}"><i class="batch stream"></i><br />场地信息</a></li>
+						<li><a th:href="@{/mybookground}"><i class="batch users"></i><br />我的预约</a></li>
+						<li th:if="${session.user.role} == 0"><a th:href="@{/tobookground}"><i class="batch users"></i><br />场地预约</a></li>
+						<li th:if="${session.user.role} == 2"><a th:href="@{/tonoticeedit}"><i class="batch users"></i><br />编辑场馆公告</a></li>
+						<li th:if="${session.user.role} == 0"><a th:href="@{/toquerynotice}"><i class="batch users"></i><br />查看场馆公告</a></li>
+						<li th:if="${session.user.role} == 2"><a th:href="@{/torepudiation}"><i class="batch users"></i><br />失约人名单</a></li>
+                        <li th:if="${session.user.role} == 2"><a th:href="@{/toblack}"><i class="batch users"></i><br />查看黑名单</a></li>
+						<li><a th:href="@{/querygroundbook}"><i class="batch users"></i><br />查看已预约场地</a></li>
+						<!-- <li><a href="categories.html"><i class="batch forms"></i><br />Àà±ðÁÐ±í</a></li>
+						<li><a href="products.html"><i class="batch quill"></i><br />ÉÌÆ·ÁÐ±í</a></li>
+						<li><span class="label label-important pull-right">04</span><a
+							href="orders.html"><i class="batch plane"></i><br />¶©µ¥ÁÐ±í</a></li>
+						<li><a href="anothers.html"><i class="batch calendar"></i><br />ÆäËüÀ©Õ¹¹¦ÄÜ</a></li>
+						<li><a href="settings.html"><i class="batch settings"></i><br />ÏµÍ³ÉèÖÃ</a></li> -->
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="page">
+		<div class="page-container">
+			<div class="container">
+				<div class="row">
+					<div class="span12">
+						<a th:if="${session.user.role} == 2" th:href="@{/toaddground}" class="btn pull-right">添加场地</a>
+						场地类型：<input id="gtype" type="text" name="gtype">
+						<a th:onclick="queryByParms()" class="btn pull-right">搜索场地</a>
+						<h4 class="header">场地列表</h4>
+						<table class="table table-striped sortable">
+							<thead>
+								<tr>
+									<th>场地ID</th>
+									<th>场地类型</th>
+									<th>场地用途</th>
+									<th>位置</th>
+									<th>小时/元</th>
+									<th>状态</th>
+
+								</tr>
+							</thead>
+							<tbody id="td">
+<!--								<tr>-->
+<!--									<td>1</td>-->
+<!--									<td>篮球场</td>-->
+<!--									<td>用作比赛和上课</td>-->
+<!--									<td>体育场一楼</td>-->
+<!--									<td>50</td>-->
+<!--									<td>0</td>-->
+
+<!--										<div th:if="${session.user.role} == 2" class="btn-group" id="btngrouup">-->
+<!--											<button class="btn">操作</button>-->
+<!--											<button data-toggle="dropdown" class="btn dropdown-toggle">-->
+<!--												<span class="caret"></span>-->
+<!--											</button>-->
+<!--											<ul class="dropdown-menu">-->
+<!--												<li><a href="update_ground.html">修改</a> <a href="#">删除</a> <a-->
+<!--													href="#">预留</a><a href="#">关闭</a></li>-->
+<!--											</ul>-->
+<!--										</div>-->
+
+<!--								</tr>-->
+<!--								<tr>-->
+<!--									<td>1</td>-->
+<!--									<td>篮球场</td>-->
+<!--									<td>用作比赛和上课</td>-->
+<!--									<td>体育场一楼</td>-->
+<!--									<td>50</td>-->
+<!--									<td>0</td>-->
+<!--									<td>-->
+<!--										<div class="btn-group">-->
+<!--											<button class="btn">操作</button>-->
+<!--											<button data-toggle="dropdown" class="btn dropdown-toggle">-->
+<!--												<span class="caret"></span>-->
+<!--											</button>-->
+<!--											<ul class="dropdown-menu">-->
+<!--												<li><a href="update_ground.html">修改</a> <a href="#">删除</a> <a-->
+<!--													href="#">预留</a><a href="#">关闭</a></li>-->
+<!--											</ul>-->
+<!--										</div>-->
+<!--									</td>-->
+<!--								</tr>-->
+							</tbody>
+						</table>
+						<div class="pagination pagination-centered">
+							<ul id="page">
+<!--								<li class="disabled"><a href="#">&laquo;</a></li>-->
+<!--								<li class="active"><a href="#">1</a></li>-->
+<!--								<li><a href="#">2</a></li>-->
+<!--								<li><a href="#">3</a></li>-->
+<!--								<li><a href="#">4</a></li>-->
+<!--								<li><a href="#">5</a></li>-->
+<!--								<li><a href="#">&raquo;</a></li>-->
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			</div>
+		</div>
+	</div>
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="span12">
+					
+					<p>&copy; Copyright 2018 Somnus</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+</body>
+<script src="js/d3-setup.js"></script>
+<script  type="text/javascript" th:inline="javascript">
+
+	//搜索渲染
+	function queryByParms() {
+		$("#td").empty();
+		$("#page").empty();
+		var role=[[${session.user.role}]];
+		var gtype = $("#gtype").val();
+		if(role == 2){
+			$("#td").empty();
+			$("#page").empty();
+
+			$.ajax({
+				type:"get",
+				url:"querygroundbyparms",
+				data:{
+					gtype:gtype
+				},
+				dataType:"json",
+				success:function (response) {
+					var data = response.data;
+
+					for (var i =0;i<data.length;i++){
+						var tabalRow = $("<tr></tr>");
+
+						tabalRow.append("<td>"+data[i].gid+"</td>");
+						tabalRow.append("<td>"+data[i].gtype+"</td>");
+						tabalRow.append("<td>"+data[i].gapplication+"</td>");
+						tabalRow.append("<td>"+data[i].glocation+"</td>");
+						tabalRow.append("<td>"+data[i].gcost+"</td>");
+						var statusVal;
+						switch (data[i].gstatus) {
+							case "0":
+								statusVal = "开放";
+								break;
+							case "1":
+								statusVal = "关闭";
+								break;
+						}
+
+						var path =/*[[@{/toupdateground}]]*/;
+						var pathtwo =/*[[@{/tobookbook}]]*/;
+						var role=/*[[${session.user.role}]]*/;
+
+
+						tabalRow.append("<td>"+statusVal+"</td>");
+						tabalRow.append("<div class='btn-group'><button class='btn'>操作" +
+								"</button><button data-toggle='dropdown' class='btn dropdown-toggle'><span class='caret'></span></button>" +
+								"<ul class='dropdown-menu'>" +
+								"<li><a href='"+path+data[i].gid+"'>修改</a>" +
+								"<a onclick='deleteById("+data[i].gid+")'>删除</a>" +
+								"<a href='"+pathtwo+data[i].gid+"'>预留</a><a onclick='updateStatus("+data[i].gid+","+data[i].gstatus+")'>修改状态</a></li></ul></div>");
+						$("#td").append(tabalRow);
+
+					}
+				}
+			})
+		}
+		if(role == 0){
+			$("#td").empty();
+			$("#page").empty();
+			$.ajax({
+				type:"get",
+				url:"querygroundbyparms",
+				data:{
+					gtype:gtype
+				},
+				dataType:"json",
+				success:function (response) {
+					var data = response.data;
+
+					for (var i =0;i<data.length;i++){
+						var tabalRow = $("<tr></tr>");
+						tabalRow.append("<td>"+data[i].gid+"</td>");
+						tabalRow.append("<td>"+data[i].gtype+"</td>");
+						tabalRow.append("<td>"+data[i].gapplication+"</td>");
+						tabalRow.append("<td>"+data[i].glocation+"</td>");
+						tabalRow.append("<td>"+data[i].gcost+"</td>");
+						var statusVal;
+						switch (data[i].gstatus) {
+							case "0":
+								statusVal = "开放";
+								break;
+							case "1":
+								statusVal = "关闭";
+								break;
+						}
+						tabalRow.append("<td>"+statusVal+"</td>");
+						$("#td").append(tabalRow);
+
+					}
+				}
+			})
+		}
+
+	}
+   function updateStatus(gid,status){
+       var statusVal;
+       if(status == "0"){
+           statusVal = "1";
+       }if(status == "1"){
+           statusVal = "0";
+       }
+       $.ajax({
+           type:"get",
+           url:"setstatus",
+           data:{
+               gid:gid,
+               gstatus:statusVal
+           },
+           dataType:"json",
+           success:function (response) {
+               window.location.reload();
+               alert(response.msg);
+           }
+       })
+
+   }
+	function deleteById(id){
+		$.ajax({
+			type: "get",
+			url:"deletebyid",
+			data: {
+				gid:id
+			},
+			dataType: "json",
+			success:function (response) {
+				window.location.reload();
+				console.log(response);
+			}
+		})
+	}
+	//获取渲染
+	function page(pn){
+		var role=[[${session.user.role}]];
+		if(role == 2){
+			$.ajax({
+				type:"get",
+				url:"listground",
+				data:{
+					pageNum:pn,
+					pageSize:3
+				},
+				dataType:"json",
+				success:function (response) {
+					var data = response.data.list;
+					$("#td").empty();
+					for (var i =0;i<data.length;i++){
+						var tabalRow = $("<tr></tr>");
+
+
+						tabalRow.append("<td>"+data[i].gid+"</td>");
+						tabalRow.append("<td>"+data[i].gtype+"</td>");
+						tabalRow.append("<td>"+data[i].gapplication+"</td>");
+						tabalRow.append("<td>"+data[i].glocation+"</td>");
+						tabalRow.append("<td>"+data[i].gcost+"</td>");
+						var statusVal;
+						switch (data[i].gstatus) {
+							case "0":
+								statusVal = "开放";
+								break;
+							case "1":
+								statusVal = "关闭";
+								break;
+						}
+
+						var path =/*[[@{/toupdateground}]]*/;
+						var pathtwo =/*[[@{/tobookbook}]]*/;
+
+						tabalRow.append("<td>"+statusVal+"</td>");
+
+						tabalRow.append("<div class='btn-group'><button class='btn'>操作" +
+								"</button><button data-toggle='dropdown' class='btn dropdown-toggle'><span class='caret'></span></button>" +
+								"<ul class='dropdown-menu'>" +
+								"<li><a href='"+path+data[i].gid+"'>修改</a>" +
+								"<a onclick='deleteById("+data[i].gid+")'>删除</a>" +
+								"<a href='"+pathtwo+data[i].gid+"'>预留</a><a onclick='updateStatus("+data[i].gid+","+data[i].gstatus+")'>修改状态</a></li></ul></div>");
+						$("#td").append(tabalRow);
+					}
+					$("#page").empty();
+					var nums = response.data.navigatepageNums;
+					for(var i=0;i<nums.length;i++){
+						$("#page").append("<li onclick='page("+nums[i]+")'><a>"+nums[i]+"</a></li>");
+
+					}
+
+				}
+			})
+		}
+		if(role == 0){
+			$.ajax({
+				type:"get",
+				url:"listground",
+				data:{
+					pageNum:pn,
+					pageSize:3
+				},
+				dataType:"json",
+				success:function (response) {
+					var data = response.data.list;
+					$("#td").empty();
+					for (var i =0;i<data.length;i++){
+						var tabalRow = $("<tr></tr>");
+
+
+						tabalRow.append("<td>"+data[i].gid+"</td>");
+						tabalRow.append("<td>"+data[i].gtype+"</td>");
+						tabalRow.append("<td>"+data[i].gapplication+"</td>");
+						tabalRow.append("<td>"+data[i].glocation+"</td>");
+						tabalRow.append("<td>"+data[i].gcost+"</td>");
+						var statusVal;
+						switch (data[i].gstatus) {
+							case "0":
+								statusVal = "开放";
+								break;
+							case "1":
+								statusVal = "关闭";
+								break;
+						}
+						tabalRow.append("<td>"+statusVal+"</td>");
+						$("#td").append(tabalRow);
+					}
+					$("#page").empty();
+					var nums = response.data.navigatepageNums;
+					for(var i=0;i<nums.length;i++){
+						$("#page").append("<li onclick='page("+nums[i]+")'><a>"+nums[i]+"</a></li>");
+
+					}
+
+				}
+			})
+		}
+	}
+
+	page(1);
+
+</script>
+</html>

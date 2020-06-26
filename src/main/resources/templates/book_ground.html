@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<!-- <meta charset="gbk" /> -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="description" content="description of your site" />
+<meta name="author" content="author of the site" />
+<title>场地信息</title>
+<link rel="stylesheet" href="css/bootstrap.css" />
+<link rel="stylesheet" href="css/bootstrap-responsive.css" />
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/toastr.css" />
+<link rel="stylesheet" href="css/fullcalendar.css" />
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/jquery.knob.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="js/jquery.sparkline.min.js"></script>
+<script src="js/toastr.js"></script>
+<script src="js/jquery.tablesorter.min.js"></script>
+<script src="js/jquery.peity.min.js"></script>
+<script src="js/fullcalendar.min.js"></script>
+<script src="js/gcal.js"></script>
+<script src="js/setup.js"></script>
+</head>
+<body>
+	<div id="in-nav">
+		<div class="container">
+			<div class="row">
+				<div class="span12">
+					<a id="logo" href="#">
+						<h4>
+							场地管理<strong>系统</strong>
+						</h4>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="in-sub-nav">
+		<div class="container">
+			<div class="row">
+				<div class="span12">
+					<ul>
+
+                        <li><a th:href="@{/ground.html}"><i class="batch stream"></i><br />场地信息</a></li>
+                        <li><a th:href="@{/mybookground}"><i class="batch users"></i><br />我的预约</a></li>
+                        <li th:if="${session.user.role} == 0"><a th:href="@{/tobookground}"><i class="batch users"></i><br />场地预约</a></li>
+                        <li th:if="${session.user.role} == 2"><a th:href="@{/tonoticeedit}"><i class="batch users"></i><br />编辑场馆公告</a></li>
+                        <li th:if="${session.user.role} == 0"><a th:href="@{/toquerynotice}"><i class="batch users"></i><br />查看场馆公告</a></li>
+                        <li th:if="${session.user.role} == 2"><a th:href="@{/torepudiation}"><i class="batch users"></i><br />失约人名单</a></li>
+                        <li th:if="${session.user.role} == 2"><a th:href="@{/toblack}"><i class="batch users"></i><br />查看黑名单</a></li>
+                        <li><a th:href="@{/querygroundbook}"><i class="batch users"></i><br />查看已预约场地</a></li>
+						<!-- <li><a href="categories.html"><i class="batch forms"></i><br />Àà±ðÁÐ±í</a></li>
+						<li><a href="products.html"><i class="batch quill"></i><br />ÉÌÆ·ÁÐ±í</a></li>
+						<li><span class="label label-important pull-right">04</span><a
+							href="orders.html"><i class="batch plane"></i><br />¶©µ¥ÁÐ±í</a></li>
+						<li><a href="anothers.html"><i class="batch calendar"></i><br />ÆäËüÀ©Õ¹¹¦ÄÜ</a></li>
+						<li><a href="settings.html"><i class="batch settings"></i><br />ÏµÍ³ÉèÖÃ</a></li> -->
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="page">
+		<div class="page-container">
+			<div class="container">
+				<div class="row">
+					<div class="span12">
+						<ul class="nav nav-tabs" role="tablist">
+							<li  role="presentation"><a href="#home" role="tab" data-toggle="tab" th:text="${datalist.get(0)}+${currentWeek.get(0)}"></a></li>
+							<li  role="presentation"><a href="#profile" role="tab" data-toggle="tab" th:text="${datalist.get(1)}+${currentWeek.get(1)}"></a></li>
+							<li  role="presentation"><a href="#messages" role="tab" data-toggle="tab" th:text="${datalist.get(2)}+${currentWeek.get(2)}"></a></li>
+							<li  role="presentation"><a href="#settings" role="tab" data-toggle="tab" th:text="${datalist.get(3)}+${currentWeek.get(3)}"></a></li>
+							<li  role="presentation"><a href="#five" role="tab" data-toggle="tab" th:text="${datalist.get(4)}+${currentWeek.get(4)}"></a></li>
+							<li  role="presentation"><a href="#six" role="tab" data-toggle="tab" th:text="${datalist.get(5)}+${currentWeek.get(5)}"></a></li>
+							<li  role="presentation"><a href="#seven" role="tab" data-toggle="tab" th:text="${datalist.get(6)}+${currentWeek.get(6)}"></a></li>
+						</ul>
+						<div class="tab-content">
+						  <div role="tabpanel" class="tab-pane active" id="home">
+						  	<table class="table table-striped sortable" th:if="${currentWeek.get(0)} ne '星期六' and ${currentWeek.get(0)} ne '星期日' ">
+						  		<thead>
+									<tr>
+										<th>类型</th>
+										<th>位置</th>
+										<th>费用</th>
+									</tr>
+								</thead>
+								<tbody>
+								<tr th:each="ground:${groundList}">
+									<td th:text="${ground.getGtype()}">1</td>
+									<td th:text="${ground.getGlocation()}">123</td>
+									<td th:text="${ground.getGcost()}">123</td>
+									<td>
+										<div class="btn-group">
+                                            <a th:href="@{tobookdetailed(gid=${ground.getGid()},currentdate=${datalist.get(0)},cost=${ground.getGcost()})}" class="btn">预约</a>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						    </table>
+						</div>
+						  <div role="tabpanel" class="tab-pane" id="profile">
+						  	<table class="table table-striped sortable" th:if=" ${currentWeek.get(1)} ne '星期六' and ${currentWeek.get(1)} ne '星期日' ">
+                                <thead>
+                                <tr>
+                                    <th>类型</th>
+                                    <th>位置</th>
+                                    <th>费用</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="ground:${groundList}">
+                                    <td th:text="${ground.getGtype()}">1</td>
+                                    <td th:text="${ground.getGlocation()}">123</td>
+                                    <td th:text="${ground.getGcost()}">123</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a th:href="@{tobookdetailed(gid=${ground.getGid()},currentdate=${datalist.get(1)},cost=${ground.getGcost()})}" class="btn">预约</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+						    </table>
+
+						  </div>
+						  <div role="tabpanel" class="tab-pane" id="messages">
+						  	<table class="table table-striped sortable" th:if=" ${currentWeek.get(2)} ne '星期六' and ${currentWeek.get(2)} ne '星期日' ">
+                                <thead>
+                                <tr>
+                                    <th>类型</th>
+                                    <th>位置</th>
+                                    <th>费用</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="ground:${groundList}">
+                                    <td th:text="${ground.getGtype()}">1</td>
+                                    <td th:text="${ground.getGlocation()}">123</td>
+                                    <td th:text="${ground.getGcost()}">123</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a th:href="@{tobookdetailed(gid=${ground.getGid()},currentdate=${datalist.get(2)},cost=${ground.getGcost()})}" class="btn">预约</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+						    </table>
+						  </div>
+						  <div role="tabpanel" class="tab-pane" id="settings">
+                              <table class="table table-striped sortable" th:if=" ${currentWeek.get(3)} ne '星期六' and ${currentWeek.get(3)} ne '星期日' ">
+                                  <thead>
+                                  <tr>
+                                      <th>类型</th>
+                                      <th>位置</th>
+                                      <th>费用</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  <tr th:each="ground:${groundList}">
+                                      <td th:text="${ground.getGtype()}">1</td>
+                                      <td th:text="${ground.getGlocation()}">123</td>
+                                      <td th:text="${ground.getGcost()}">123</td>
+                                      <td>
+                                          <div class="btn-group">
+                                              <a th:href="@{tobookdetailed(gid=${ground.getGid()},currentdate=${datalist.get(3)},cost=${ground.getGcost()})}" class="btn">预约</a>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  </tbody>
+                              </table>
+						  </div>
+						  <div  role="tabpanel" class="tab-pane" id="five">
+                              <table class="table table-striped sortable" th:if=" ${currentWeek.get(4)} ne '星期六' and ${currentWeek.get(4)} ne '星期日' ">
+                                  <thead>
+                                  <tr>
+                                      <th>类型</th>
+                                      <th>位置</th>
+                                      <th>费用</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  <tr th:each="ground:${groundList}">
+                                      <td th:text="${ground.getGtype()}">1</td>
+                                      <td th:text="${ground.getGlocation()}">123</td>
+                                      <td th:text="${ground.getGcost()}">123</td>
+                                      <td>
+                                          <div class="btn-group">
+                                              <a th:href="@{tobookdetailed(gid=${ground.getGid()},currentdate=${datalist.get(4)},cost=${ground.getGcost()})}" class="btn">预约</a>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  </tbody>
+                              </table>
+						  	</div>
+                            <div role="tabpanel" class="tab-pane" id="six">
+                                <table class="table table-striped sortable" th:if=" ${currentWeek.get(5)} ne '星期六' and ${currentWeek.get(5)} ne '星期日' ">
+                                    <thead>
+                                    <tr>
+                                        <th>类型</th>
+                                        <th>位置</th>
+                                        <th>费用</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="ground:${groundList}">
+                                        <td th:text="${ground.getGtype()}">1</td>
+                                        <td th:text="${ground.getGlocation()}">123</td>
+                                        <td th:text="${ground.getGcost()}">123</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a th:href="@{tobookdetailed(gid=${ground.getGid()},currentdate=${datalist.get(5)},cost=${ground.getGcost()})}" class="btn">预约</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+						  	</div>
+						  	<div  role="tabpanel" class="tab-pane" id="seven">
+                                <table class="table table-striped sortable" th:if=" ${currentWeek.get(6)} ne '星期六' and ${currentWeek.get(6)} ne '星期日' ">
+                                    <thead>
+                                    <tr>
+                                        <th>类型</th>
+                                        <th>位置</th>
+                                        <th>费用</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="ground:${groundList}">
+                                        <td th:text="${ground.getGtype()}">1</td>
+                                        <td th:text="${ground.getGlocation()}">123</td>
+                                        <td th:text="${ground.getGcost()}">123</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a th:href="@{tobookdetailed(gid=${ground.getGid()},currentdate=${datalist.get(6)},cost=${ground.getGcost()})}" class="btn">预约</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+						  	</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			</div>
+		</div>
+	</div>
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="span12">
+					
+					<p>&copy; Copyright 2018 Somnus</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+</body>
+<script src="js/d3-setup.js"></script>
+<script>
+	protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+	address = protocol + window.location.host + window.location.pathname
+			+ '/ws';
+	socket = new WebSocket(address);
+	socket.onmessage = function(msg) {
+		msg.data == 'reload' && window.location.reload()
+	}
+</script>
+</html>

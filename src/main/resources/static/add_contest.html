@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta charset="gbk" /> -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+    <meta name="description" content="description of your site"/>
+    <meta name="author" content="author of the site"/>
+    <title>赛事信息</title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/bootstrap-responsive.css"/>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <link rel="stylesheet" href="css/toastr.css"/>
+    <link rel="stylesheet" href="css/fullcalendar.css"/>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/jquery.knob.js"></script>
+    <script src="js/jquery.sparkline.min.js"></script>
+    <script src="js/toastr.js"></script>
+    <script src="js/jquery.tablesorter.min.js"></script>
+    <script src="js/jquery.peity.min.js"></script>
+    <script src="js/fullcalendar.min.js"></script>
+    <script src="js/gcal.js"></script>
+    <script src="js/setup.js"></script>
+    <style type="text/css">
+        .cFrom {
+            margin-left: 20px;
+        }
+
+        .cFrom input {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="in-nav">
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+                <a th:id="logo" href="#">
+                    <h4>
+                        <strong>赛事管理系统</strong>
+                    </h4>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="in-sub-nav">
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+                <ul>
+
+
+                    <!-- <li><a href="categories.html"><i class="batch forms"></i><br />Àà±ðÁÐ±í</a></li>
+                    <li><a href="products.html"><i class="batch quill"></i><br />ÉÌÆ·ÁÐ±í</a></li>
+                    <li><span class="label label-important pull-right">04</span><a
+                        href="orders.html"><i class="batch plane"></i><br />¶©µ¥ÁÐ±í</a></li>
+                    <li><a href="anothers.html"><i class="batch calendar"></i><br />ÆäËüÀ©Õ¹¹¦ÄÜ</a></li>
+                    <li><a href="settings.html"><i class="batch settings"></i><br />ÏµÍ³ÉèÖÃ</a></li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page">
+    <div class="page-container">
+        <div class="container">
+            <div class="row">
+
+                <form class="cFrom" id="form" method="post" action="/contest/addContest">
+                    <div class="form-group">
+                        <label for="cName">赛事名称</label>
+                        <input type="text" class="form-control" name="cname" id="cName" placeholder="赛事名称">
+                    </div>
+                    <div class="form-group">
+                        <label for="apply">赛事申请人</label>
+                        <input type="text" class="form-control" name="capply" id="apply" placeholder="赛事申请人">
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">赛事开始时间</label>
+                        <input type="datetime-local" name="cStartDate" id="startDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">赛事结束时间</label>
+                        <input type="datetime-local" name="cEndDate" id="endDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="type">赛事类型</label>
+                        <input type="text" class="form-control" name="cgdType" id="type">
+                    </div>
+                    <button type="button" id="formSubmit" class="btn btn-default">Submit</button>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+
+                <p>&copy; Copyright 2018 Somnus</p>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+<script src="js/d3-setup.js"></script>
+<script type="text/javascript" th:inline="javascript">
+    $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [ o[this.name] ];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+    $('#formSubmit').click(function () {
+        var a = JSON.stringify($('#form').serializeObject());
+        a = a.replace(new RegExp('T', "gm"), ' ');
+        $.ajax({
+            url: "/contest/addContest",
+            type: "POST",
+            data: a,
+            contentType: "application/json;charset=UTF-8",  //缺失会出现URL编码，无法转成json对象
+            success: function () {
+                window.location.href = "/contest.html";
+            }
+        });
+    });
+
+</script>
+
+</html>

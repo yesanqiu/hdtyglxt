@@ -1,0 +1,76 @@
+
+.background{
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    height: 100%;
+    background: url("../img/0.jpg") repeat-x;
+    background-size: cover;
+    filter: alpha(opacity = 50);
+    opacity: 0.5;
+    -moz-opacity: 0.5;
+    width: 100%;
+}
+.login_form{
+
+    /*float: left;*/
+    width: 30%;
+    min-width: 300px;
+    min-height: 200px;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background: rgba(0,24,56,0.4);
+    border-radius: 8px;
+    position: relative;
+    top: -100px;
+    box-shadow: 1px 1px 1px rgba(15,18,116,0.5);
+}
+input{
+    display: block;
+}
+
+.title{
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 30px;
+    color:  rgba(15,18,116,0.8);
+    width: 30%;
+    min-width: 500px;
+    text-align: center;
+}
+.title a{
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 20px;
+    color:  rgba(15,18,116,0.5);
+}
+.line{
+    display: flex;
+    color: rgba(255,255,255,0.9);
+    justify-content: center;
+    width: 300px;
+}
+.line a{
+    width: 80px;
+    text-align: right;
+}
+button{
+    padding: 8px 24px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 16px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+    border-width: 1px;
+    border-color: cornflowerblue;
+    color: rgba(118,18,116,0.9);
+    background-color: rgba(255,245,150,0.7);
+    margin-right: 38px;
+}
+
+.bottom_msg{
+    align-self: flex-end;
+}

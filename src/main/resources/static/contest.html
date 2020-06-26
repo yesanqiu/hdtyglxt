@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta charset="gbk" /> -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+    <meta name="description" content="description of your site"/>
+    <meta name="author" content="author of the site"/>
+    <title>赛事信息</title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/bootstrap-responsive.css"/>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <link rel="stylesheet" href="css/toastr.css"/>
+    <link rel="stylesheet" href="css/fullcalendar.css"/>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/jquery.knob.js"></script>
+    <script src="js/jquery.sparkline.min.js"></script>
+    <script src="js/toastr.js"></script>
+    <script src="js/jquery.tablesorter.min.js"></script>
+    <script src="js/jquery.peity.min.js"></script>
+    <script src="js/fullcalendar.min.js"></script>
+    <script src="js/gcal.js"></script>
+    <script src="js/setup.js"></script>
+</head>
+<body>
+<div id="in-nav">
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+                <a th:id="logo" href="#">
+                    <h4>
+                        <strong>赛事管理系统</strong>
+                    </h4>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="in-sub-nav">
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+                <ul>
+
+
+                    <!-- <li><a href="categories.html"><i class="batch forms"></i><br />Àà±ðÁÐ±í</a></li>
+                    <li><a href="products.html"><i class="batch quill"></i><br />ÉÌÆ·ÁÐ±í</a></li>
+                    <li><span class="label label-important pull-right">04</span><a
+                        href="orders.html"><i class="batch plane"></i><br />¶©µ¥ÁÐ±í</a></li>
+                    <li><a href="anothers.html"><i class="batch calendar"></i><br />ÆäËüÀ©Õ¹¹¦ÄÜ</a></li>
+                    <li><a href="settings.html"><i class="batch settings"></i><br />ÏµÍ³ÉèÖÃ</a></li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page">
+    <div class="page-container">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <a href="/add_contest.html" class="btn pull-right">添加赛事</a>
+                    赛事名称：<input id="cName" type="text" name="gtype">
+                    <a id="search" class="btn pull-right">搜索赛事</a>
+                    <h4 class="header">赛事列表</h4>
+                    <table class="table table-striped sortable">
+                        <thead>
+                        <tr>
+                            <th>赛事ID</th>
+                            <th>赛事名称</th>
+                            <th>赛事申请人</th>
+                            <th>赛事开始时间</th>
+                            <th>赛事结束时间</th>
+                            <th>赛事类型</th>
+                        </tr>
+                        </thead>
+                        <tbody id="td">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+
+                <p>&copy; Copyright 2018 Somnus</p>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+<script src="js/d3-setup.js"></script>
+<script type="text/javascript" th:inline="javascript">
+
+    //搜索渲染
+    /*	function queryByParms() {
+            $("#td").empty();
+            $("#page").empty();
+            var role=[[${session.user.role}]];
+            var gtype = $("#gtype").val();
+            if(role == 2){
+                $("#td").empty();
+                $("#page").empty();
+
+                $.ajax({
+                    type:"get",
+                    url:"querygroundbyparms",
+                    data:{
+                        gtype:gtype
+                    },
+                    dataType:"json",
+                    success:function (response) {
+                        var data = response.data;
+
+                        for (var i =0;i<data.length;i++){
+                            var tabalRow = $("<tr></tr>");
+
+                            tabalRow.append("<td>"+data[i].gid+"</td>");
+                            tabalRow.append("<td>"+data[i].gtype+"</td>");
+                            tabalRow.append("<td>"+data[i].gapplication+"</td>");
+                            tabalRow.append("<td>"+data[i].glocation+"</td>");
+                            tabalRow.append("<td>"+data[i].gcost+"</td>");
+                            var statusVal;
+                            switch (data[i].gstatus) {
+                                case "0":
+                                    statusVal = "开放";
+                                    break;
+                                case "1":
+                                    statusVal = "关闭";
+                                    break;
+                            }
+
+                            var path =/!*[[@{/toupdateground}]]*!/;
+                            var pathtwo =/!*[[@{/tobookbook}]]*!/;
+                            var role=/!*[[${session.user.role}]]*!/;
+
+
+                            tabalRow.append("<td>"+statusVal+"</td>");
+                            tabalRow.append("<div class='btn-group'><button class='btn'>操作" +
+                                    "</button><button data-toggle='dropdown' class='btn dropdown-toggle'><span class='caret'></span></button>" +
+                                    "<ul class='dropdown-menu'>" +
+                                    "<li><a href='"+path+data[i].gid+"'>修改</a>" +
+                                    "<a onclick='deleteById("+data[i].gid+")'>删除</a>" +
+                                    "<a href='"+pathtwo+data[i].gid+"'>预留</a><a onclick='updateStatus("+data[i].gid+","+data[i].gstatus+")'>修改状态</a></li></ul></div>");
+                            $("#td").append(tabalRow);
+
+                        }
+                    }
+                })
+            }
+            if(role == 0){
+                $("#td").empty();
+                $("#page").empty();
+                $.ajax({
+                    type:"get",
+                    url:"querygroundbyparms",
+                    data:{
+                        gtype:gtype
+                    },
+                    dataType:"json",
+                    success:function (response) {
+                        var data = response.data;
+
+                        for (var i =0;i<data.length;i++){
+                            var tabalRow = $("<tr></tr>");
+                            tabalRow.append("<td>"+data[i].gid+"</td>");
+                            tabalRow.append("<td>"+data[i].gtype+"</td>");
+                            tabalRow.append("<td>"+data[i].gapplication+"</td>");
+                            tabalRow.append("<td>"+data[i].glocation+"</td>");
+                            tabalRow.append("<td>"+data[i].gcost+"</td>");
+                            var statusVal;
+                            switch (data[i].gstatus) {
+                                case "0":
+                                    statusVal = "开放";
+                                    break;
+                                case "1":
+                                    statusVal = "关闭";
+                                    break;
+                            }
+                            tabalRow.append("<td>"+statusVal+"</td>");
+                            $("#td").append(tabalRow);
+
+                        }
+                    }
+                })
+            }
+
+        }
+       function updateStatus(gid,status){
+           var statusVal;
+           if(status == "0"){
+               statusVal = "1";
+           }if(status == "1"){
+               statusVal = "0";
+           }
+           $.ajax({
+               type:"get",
+               url:"setstatus",
+               data:{
+                   gid:gid,
+                   gstatus:statusVal
+               },
+               dataType:"json",
+               success:function (response) {
+                   window.location.reload();
+                   alert(response.msg);
+               }
+           })
+
+       }
+        function deleteById(id){
+            $.ajax({
+                type: "get",
+                url:"deletebyid",
+                data: {
+                    gid:id
+                },
+                dataType: "json",
+                success:function (response) {
+                    window.location.reload();
+                    console.log(response);
+                }
+            })
+        }*/
+    //获取渲染
+    function page(name) {
+        $.ajax({
+            type: "get",
+            url: "/contest/getContestAll",
+            data: {
+                cName: name
+            },
+            dataType: "json",
+            success: function (response) {
+                $("#td > tr").remove();
+                if (response === null || response.length === 0) {
+                    return;
+                }
+                for (var i = 0; i < response.length; i++) {
+                    var tabalRow = $("<tr></tr>");
+                    tabalRow.append("<td>" + response[i].cid + "</td>");
+                    tabalRow.append("<td>" + response[i].cname + "</td>");
+                    tabalRow.append("<td>" + response[i].capply + "</td>");
+                    tabalRow.append("<td>" + response[i].cStartDate + "</td>");
+                    tabalRow.append("<td>" + response[i].cEndDate + "</td>");
+                    tabalRow.append("<td>" + response[i].cgdType + "</td>");
+                    tabalRow.append("<td><a onclick='deleteReecord("+response[i].cid+")' data-value=" + response[i].cid + " class='btn'>刪除</a></td>");
+                    $("#td").append(tabalRow);
+
+                }
+            }
+        })
+
+    }
+
+
+    function pageByName() {
+        var name = $('#cName')[0].value;
+        page(name);
+    }
+
+    $('#search').click(function () {
+        pageByName();
+    });
+
+    page(null);
+
+
+/*    $('.deleteRecord').click(function () {
+        var id = this.getData('value');
+        $.ajax({
+            url: "/contest/delete",
+            type: "get",
+            data: {cId: id},
+            success: function () {
+                pageByName();
+            }
+        });
+
+    });*/
+/*
+    $('.deleteRecord').click(function () {
+        var id = this.getData('value');
+        $.ajax({
+            url: "/contest/delete",
+            type: "get",
+            data: {cId: id},
+            success: function () {
+                pageByName();
+            }
+        });
+
+    });
+*/
+
+    deleteReecord = function (id) {
+        $.ajax({
+            url: "/contest/delete",
+            type: "get",
+            data: {cId: id},
+            success: function () {
+                pageByName();
+            }
+        });
+    }
+
+</script>
+</html>

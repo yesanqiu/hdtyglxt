@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人信息</title>
+    <link rel="stylesheet" href="css/personal_msg.css">
+    <link rel="stylesheet" href="css/user_mode.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/base.css">
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/user_mode.js"></script>
+</head>
+<body>
+<div class="body">
+    <div class="head_msg">
+        <div class="to_index">首页</div>
+        <div>
+            <div><a class="nickname">用户名</a>,<a class="warn">退出</a></div>
+            <div style="display: none">登录</div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="content_body">
+            <div class="c_b_left">
+                <div class="item active_item">添加用户</div>
+                <div class="item">删除用户</div>
+                <div class="item">添加管理员</div>
+                <div class="item">删除管理员</div>
+            </div>
+            <div class="c_b_right">
+                <div class="msg">
+                    <div class="line"><a>用户名：</a><input type="text" name="username"></div>
+                    <div class="line"><a>昵称：</a><input type="text" name="nickname"></div>
+                    <div class="line"><a>学号：</a><input type="text" name="studentId"></div>
+                    <div class="line"><a>密码：</a><input type="password" name="password"></div>
+                    <button class="btn addUser">保存</button>
+                </div>
+                <div class="psw">
+                    <div class="t_head">
+                        <div class="t_item">用户名</div>
+                        <div class="t_item">昵称</div>
+                        <div class="t_item">学号</div>
+                        <div class="t_item">操作</div>
+                    </div>
+                    <div class="t_body users">
+
+                    </div>
+                    <div class="t_bottom">
+                        <div class="t_btn prev_users" ><img src="./img/prev.png" alt=""></div>
+                        <div class="t_btn next_users"><img src="./img/next.png" alt=""></div>
+
+                    </div>
+                </div>
+                <div class="psw">
+                    <div class="line"><a>用户名：</a><input type="text" name="adminusername"></div>
+                    <div class="line"><a>昵称：</a><input type="text" name="adminnickname"></div>
+                    <div class="line"><a>学号：</a><input type="text" name="adminstudentId"></div>
+                    <div class="line"><a>密码：</a><input type="password" name="adminpassword"></div>
+                    <button class="btn addAdmin">保存</button>
+                </div>
+                <div class="psw">
+                    <div class="t_head">
+                        <div class="t_item">用户名</div>
+                        <div class="t_item">昵称</div>
+                        <div class="t_item">学号</div>
+                        <div class="t_item">操作</div>
+                    </div>
+                    <div class="t_body admin_users">
+
+                    </div>
+                    <div class="t_bottom">
+                        <div class="t_btn prev_admin_users" ><img src="./img/prev.png" alt=""></div>
+                        <div class="t_btn next_admin_users"><img src="./img/next.png" alt=""></div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="background">
+
+</div>
+</body>
+</html>
